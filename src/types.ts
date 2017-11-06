@@ -1,3 +1,5 @@
+import ParticipantStore from './Table/ParticipantStore';
+
 export enum TablePosition {
     AWAY_DEF, AWAY_OFF, HOME_DEF, HOME_OFF,
 }
@@ -9,7 +11,15 @@ export interface Player {
 }
 
 export interface Participant {
-    goals: number;
-    ownGoals: number;
     player?: Player;
+    participant: ParticipantStore;
+}
+
+export enum GameActions {
+    SCORE_GOAL, SCORE_OWN_GOAL,
+}
+
+export interface GameEvent {
+    action: GameActions;
+    position: TablePosition;
 }

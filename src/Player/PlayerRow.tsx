@@ -32,8 +32,10 @@ class PlayerRow extends React.Component<Props, State> {
     }
 
     private handleSelect = () => {
-        const isSelected = this.props.action(this.props.player);
-        this.setState({ isSelected });
+        if (!this.state.isSelected) {
+            const isSelected = this.props.action(this.props.player);
+            this.setState({ isSelected });
+        }
     }
 }
 

@@ -31,14 +31,7 @@ class Table extends React.Component<Props, State> {
         return this.renderTable(tableStore);
     }
 
-    // private renderNewGamePrompt = () => (
-    //     <div>
-    //         <button onClick={this.newGame}>New Game</button>
-    //         <button>Rankings</button>
-    //     </div>
-    // )
-
-    private renderTable = ({ participants, scoreGoal, scoreOwnGoal, score }: TableStore) => (
+    private renderTable = ({ participants, scoreGoal, scoreOwnGoal, score, events, undo }: TableStore) => (
         <div className="table">
             <ul>
                 {Array.from(participants.entries()).map((participant, i) =>
@@ -57,6 +50,11 @@ class Table extends React.Component<Props, State> {
                 time: {this.state.counter}
                 <button onClick={this.startTimer}>Start</button>
                 <button onClick={this.stopTimer}>Stop</button>
+                <button onClick={undo}>Undo</button>
+            </div>
+
+            <div>
+                {events.map((e, i) => <div key={i}>{e.action} {e.position}</div>)}
             </div>
         </div>
     )
@@ -84,10 +82,6 @@ class Table extends React.Component<Props, State> {
             });
         }
     }
-
-    // private newGame = () => {
-    //     this.setState({ pickParticipants: true });
-    // }
 }
 
 export default Table;

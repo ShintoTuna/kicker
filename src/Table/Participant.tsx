@@ -11,7 +11,7 @@ interface Props {
 @observer
 class Participant extends React.Component<Props> {
     public render() {
-        const [pos, { goals, ownGoals, player }] = this.props.participant;
+        const [pos, { player, participant: { score: { goals, ownGoals } } }] = this.props.participant;
 
         return (
             <li>
