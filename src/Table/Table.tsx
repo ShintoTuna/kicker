@@ -18,9 +18,9 @@ interface State {
 @inject('tableStore')
 @observer
 class Table extends React.Component<Props, State> {
-    time = 5;
+    length = 7 * 60;
     state = {
-        counter: this.time,
+        counter: this.length,
         timer: 0,
         pickParticipants: false,
         forSwap: null,
@@ -34,7 +34,7 @@ class Table extends React.Component<Props, State> {
         return this.renderTable(tableStore);
     }
 
-    private renderTable = ({ participants, scoreGoal, scoreOwnGoal, score, events, undo }: TableStore) => (
+    private renderTable = ({ participants, scoreGoal, scoreOwnGoal, score, events, undo, finishGame }: TableStore) => (
         <div className="table">
             <ul>
                 {Array.from(participants.entries()).map((participant, i) =>
@@ -51,9 +51,12 @@ class Table extends React.Component<Props, State> {
                 Away: {score.away} | Home: {score.home}
             </div>
             <div>
-                time: {this.state.counter}
-                <button onClick={this.startTimer}>Start</button>
-                <button onClick={this.stopTimer}>Stop</button>
+                time: {this.time()}
+                <button onClick={this.startTimer}>
+                    {this.state.timer ? 'Pause' : 'Start'}
+                </button>
+                <button onClick={this.resetTimer}>Reset</button>
+                <button onClick={finishGame}>Finish game</button>
                 <button onClick={undo}>Undo</button>
             </div>
 
@@ -78,15 +81,22 @@ class Table extends React.Component<Props, State> {
     }
 
     private startTimer = () => {
-        let timer = window.setInterval(this.tick, 1000);
-
-        this.setState({ timer });
+        if (!this.state.timer) {
+            let timer = window.setInterval(this.tick, 1000);
+            this.setState({ timer });
+        } else {
+            clearInterval(this.state.timer);
+            this.setState({ timer: 0 });
+        }
     }
 
-    private stopTimer = () => {
-        this.setState({ counter: this.time });
-
+    private resetTimer = () => {
         clearInterval(this.state.timer);
+
+        this.setState({
+            counter: this.length,
+            timer: 0,
+        });
     }
 
     private tick = () => {
@@ -99,6 +109,17 @@ class Table extends React.Component<Props, State> {
                 counter: counter - 1
             });
         }
+    }
+
+    private time() {
+        const time = this.state.counter;
+        const minutes = Math.floor(time / 60);
+        const seconds = time % 60;
+
+        const minStr = minutes < 10 ? '0' + minutes : minutes;
+        const secStr = seconds < 10 ? '0' + seconds : seconds;
+
+        return `${minStr}:${secStr}`;
     }
 }
 

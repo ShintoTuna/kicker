@@ -1,10 +1,14 @@
 import { observable, action, computed } from 'mobx';
-import { Participant, Player, TablePosition, GameEvent, GameActions } from '../types';
+import { Participant, Player, TablePosition, GameEvent, GameActions, Game } from '../types';
 import ParticipantStore from './ParticipantStore';
+import * as firebase from 'firebase/app';
+import fb from '../firebase';
 
 export class TableStore {
     @observable participants = new Map<TablePosition, Participant>();
     @observable events: GameEvent[] = [];
+
+    db: firebase.database.Reference = fb.database().ref('games/');
 
     @computed get pickParticipants() {
         return this.participants.size < 4;
@@ -94,6 +98,29 @@ export class TableStore {
 
     @action scoreOwnGoal = (position: TablePosition) => {
         this.events.push({ action: GameActions.SCORE_OWN_GOAL, position });
+    }
+
+    @action finishGame = () => {
+        const game: Game[] = [];
+        this.participants.forEach((participant, pos) => {
+            const { participant: { score: { ownGoals, goals } }, player } = participant;
+
+            if (player) {
+                game.push({
+                    position: pos,
+                    player: player,
+                    goals,
+                    ownGoals,
+                });
+            }
+        });
+
+        if (game.length === 4) {
+            this.db.push(game);
+
+            this.events = [];
+            this.participants = new Map();
+        }
     }
 }
 

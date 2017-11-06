@@ -3,7 +3,7 @@ import { TablePosition, GameEvent, GameActions } from '../types';
 
 export default class ParticipantStore {
     @observable position: TablePosition;
-    @observable events: GameEvent[];
+    events: GameEvent[];
 
     constructor(pos: TablePosition, events: GameEvent[]) {
         this.position = pos;

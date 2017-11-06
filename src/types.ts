@@ -27,3 +27,10 @@ export interface GameEvent {
     action: GameActions;
     position: TablePosition;
 }
+
+export interface Game {
+    position: TablePosition;
+    player: Player;
+    goals: number;
+    ownGoals: number;
+}
