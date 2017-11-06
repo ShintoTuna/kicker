@@ -15,12 +15,13 @@ class Participant extends React.Component<Props> {
         const [pos, { player, participant: { score: { goals, ownGoals } } }] = this.props.participant;
 
         return (
-            <li onClick={() => this.props.swap(pos)}>
+            <li>
                 {this.positionName(pos)}
                 {goals} ({ownGoals})
                 {player && ` ${player.firstName} ${player.lastName} `}
                 <button onClick={() => this.props.scoreGoal(pos)}>Goal</button>
                 <button onClick={() => this.props.scoreOwnGoal(pos)}>Own Goal</button>
+                <button onClick={() => this.props.swap(pos)}>swap</button>
             </li>
         );
     }

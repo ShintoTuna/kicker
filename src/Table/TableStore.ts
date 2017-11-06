@@ -22,8 +22,14 @@ export class TableStore {
         const participantB = this.participants.get(posB);
 
         if (participantA && participantB) {
-            this.participants.set(posA, participantB);
-            this.participants.set(posB, participantA);
+            this.participants.set(posA, {
+                player: participantB.player,
+                participant: participantA.participant,
+            });
+            this.participants.set(posB, {
+                player: participantA.player,
+                participant: participantB.participant,
+            });
         }
     }
 
