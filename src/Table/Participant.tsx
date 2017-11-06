@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Participant as ParticipantInterface, TablePosition } from './types';
+import { Participant as ParticipantInterface, TablePosition } from '../types';
 import { observer } from 'mobx-react';
 
 interface Props {

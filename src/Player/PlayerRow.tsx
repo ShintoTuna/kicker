@@ -3,15 +3,37 @@ import { observer } from 'mobx-react';
 import { Player } from '../types';
 
 interface Props {
-    player: [string, Player];
+    player: Player;
+    id: string;
+    action: (player: Player) => boolean;
+}
+
+interface State {
+    isSelected: boolean;
 }
 
 @observer
-class PlayerRow extends React.Component<Props> {
-    public render() {
-        const [, { firstName, lastName }] = this.props.player;
+class PlayerRow extends React.Component<Props, State> {
+    state = {
+        isSelected: false,
+    };
 
-        return <div>{`${firstName} ${lastName}`}</div>;
+    public render() {
+        const { player: { firstName, lastName } } = this.props;
+        const style = {
+            border: this.state.isSelected ? '2px dashed black' : '',
+        };
+
+        return (
+            <div onClick={this.handleSelect} style={style}>
+                {`${firstName} ${lastName}`}
+            </div>
+        );
+    }
+
+    private handleSelect = () => {
+        const isSelected = this.props.action(this.props.player);
+        this.setState({ isSelected });
     }
 }
 

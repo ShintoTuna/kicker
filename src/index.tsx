@@ -4,8 +4,9 @@ import { useStrict } from 'mobx';
 import { Provider } from 'mobx-react';
 import App from './App';
 import './index.css';
-import tableStore from './TableStore';
+import tableStore from './Table/TableStore';
 import playerStore from './Player/PlayerStore';
+import appStore from './AppStore';
 import './firebase';
 
 useStrict(true);
@@ -13,6 +14,7 @@ useStrict(true);
 const stores = {
   playerStore,
   tableStore,
+  appStore,
 };
 
 // For easier debugging

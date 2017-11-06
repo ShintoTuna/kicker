@@ -1,9 +1,13 @@
 import { observable, action, computed } from 'mobx';
-import { Participant, Player, TablePosition } from './types';
+import { Participant, Player, TablePosition } from '../types';
 
 export class TableStore {
     @observable participants = new Map<TablePosition, Participant>();
     @observable gameStarted = false;
+
+    @computed get pickParticipants() {
+        return this.participants.size < 4;
+    }
 
     @action addPlayer(position: TablePosition, player: Player) {
         this.participants.set(position, {
@@ -11,6 +15,18 @@ export class TableStore {
             goals: 0,
             ownGoals: 0,
         });
+    }
+
+    @action addPlayerRandomly(player: Player) {
+        if (!this.participants.has(TablePosition.AWAY_DEF)) {
+            this.participants.set(TablePosition.AWAY_DEF, { player, goals: 0, ownGoals: 0 });
+        } else if (!this.participants.has(TablePosition.AWAY_OFF)) {
+            this.participants.set(TablePosition.AWAY_OFF, { player, goals: 0, ownGoals: 0 });
+        } else if (!this.participants.has(TablePosition.HOME_DEF)) {
+            this.participants.set(TablePosition.HOME_DEF, { player, goals: 0, ownGoals: 0 });
+        } else if (!this.participants.has(TablePosition.HOME_OFF)) {
+            this.participants.set(TablePosition.HOME_OFF, { player, goals: 0, ownGoals: 0 });
+        }
     }
 
     @computed get score() {
@@ -36,7 +52,7 @@ export class TableStore {
         return { home, away };
     }
 
-    @action scoreGoal(position: TablePosition) {
+    @action scoreGoal = (position: TablePosition) => {
         const participant = this.participants.get(position);
 
         if (participant) {
@@ -44,7 +60,7 @@ export class TableStore {
         }
     }
 
-    @action scoreOwnGoal(position: TablePosition) {
+    @action scoreOwnGoal = (position: TablePosition) => {
         const participant = this.participants.get(position);
 
         if (participant) {
@@ -55,7 +71,8 @@ export class TableStore {
 
 const tableStore = new TableStore();
 
-// const player1: Player = { firstName: 'Donnie', lastName: 'Abner', _id: '5' };
+// const player1: Player = { f/irstName: 'Donnie', lastName: 'Abner', _id: '5' };
+
 // const player1: Player = { firstName: 'Jerold', lastName: 'Beatrix', _id: '1' };
 // const player2: Player = { firstName: 'Toni', lastName: 'Patton', _id: '2' };
 // const player3: Player = { firstName: 'Kelli', lastName: 'Read', _id: '3' };

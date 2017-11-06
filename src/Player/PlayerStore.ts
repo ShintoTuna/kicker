@@ -19,10 +19,7 @@ export class PlayerStore {
     }
 
     @action async savePlayer(player: { firstName: string; lastName: string; }) {
-        await this.db.push({
-            firstName: player.firstName,
-            lastName: player.lastName,
-        });
+        await this.db.push(player);
     }
 
     @action stopLoading = () => this.isLoading = false;
