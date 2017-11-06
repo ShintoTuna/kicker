@@ -2,6 +2,7 @@ import * as React from 'react';
 import { inject, observer } from 'mobx-react';
 import { TableStore } from './TableStore';
 import Participant from './Participant';
+import { TablePosition } from '../types';
 
 interface Props {
     tableStore?: TableStore;
@@ -11,6 +12,7 @@ interface State {
     counter: number;
     timer: number;
     pickParticipants: boolean;
+    forSwap: TablePosition | null;
 }
 
 @inject('tableStore')
@@ -21,6 +23,7 @@ class Table extends React.Component<Props, State> {
         counter: this.time,
         timer: 0,
         pickParticipants: false,
+        forSwap: null,
     };
 
     public render() {
@@ -40,6 +43,7 @@ class Table extends React.Component<Props, State> {
                         participant={participant}
                         scoreGoal={(p) => scoreGoal(p)}
                         scoreOwnGoal={(p) => scoreOwnGoal(p)}
+                        swap={this.forSwap}
                     />
                 )}
             </ul>
@@ -58,6 +62,20 @@ class Table extends React.Component<Props, State> {
             </div>
         </div>
     )
+
+    private forSwap = (pos: TablePosition) => {
+        const { tableStore } = this.props;
+        const { forSwap } = this.state;
+        if (tableStore) {
+            if (forSwap && (pos !== forSwap)) {
+                tableStore.swapPositions(forSwap, pos);
+                this.setState({ forSwap: null });
+            } else {
+                this.setState({ forSwap: pos });
+            }
+        }
+
+    }
 
     private startTimer = () => {
         let timer = window.setInterval(this.tick, 1000);

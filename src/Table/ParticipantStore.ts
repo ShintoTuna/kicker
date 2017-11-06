@@ -13,7 +13,7 @@ export default class ParticipantStore {
     @computed get score() {
         return this.events.reduce(
             (mem, e: GameEvent) => {
-                if (e.position == this.position) {
+                if (e.position === this.position) {
                     const { goals, ownGoals } = mem;
 
                     if (e.action === GameActions.SCORE_GOAL) {

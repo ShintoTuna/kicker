@@ -2,7 +2,11 @@ import { observable, computed, action } from 'mobx';
 import tableStore from './Table/TableStore';
 // import { Participant, Player, TablePosition } from './types';
 
-export enum Views { home, pickParticipants, game }
+export enum Views {
+    home = 'home',
+    pickParticipants = 'pickParticipants',
+    game = 'game'
+}
 
 export class AppStore {
     @observable gameStarted: boolean = false;

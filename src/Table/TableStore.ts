@@ -17,6 +17,16 @@ export class TableStore {
         });
     }
 
+    @action swapPositions = (posA: TablePosition, posB: TablePosition) => {
+        const participantA = this.participants.get(posA);
+        const participantB = this.participants.get(posB);
+
+        if (participantA && participantB) {
+            this.participants.set(posA, participantB);
+            this.participants.set(posB, participantA);
+        }
+    }
+
     @action addPlayerRandomly(player: Player) {
         if (!this.participants.has(TablePosition.AWAY_DEF)) {
             this.participants.set(TablePosition.AWAY_DEF, {
@@ -65,11 +75,11 @@ export class TableStore {
     }
 
     isHome = (pos: TablePosition) => {
-        return TablePosition.HOME_DEF == pos || TablePosition.HOME_OFF == pos;
+        return TablePosition.HOME_DEF === pos || TablePosition.HOME_OFF === pos;
     }
 
     isAway = (pos: TablePosition) => {
-        return TablePosition.AWAY_DEF == pos || TablePosition.AWAY_OFF == pos;
+        return TablePosition.AWAY_DEF === pos || TablePosition.AWAY_OFF === pos;
     }
 
     @action scoreGoal = (position: TablePosition) => {
@@ -82,17 +92,5 @@ export class TableStore {
 }
 
 const tableStore = new TableStore();
-
-// const player1: Player = { f/irstName: 'Donnie', lastName: 'Abner', _id: '5' };
-
-// const player1: Player = { firstName: 'Jerold', lastName: 'Beatrix', _id: '1' };
-// const player2: Player = { firstName: 'Toni', lastName: 'Patton', _id: '2' };
-// const player3: Player = { firstName: 'Kelli', lastName: 'Read', _id: '3' };
-// const player4: Player = { firstName: 'Claire', lastName: 'Jerrod', _id: '4' };
-
-// tableStore.addPlayer(TablePosition.AWAY_DEF, player1);
-// tableStore.addPlayer(TablePosition.AWAY_OFF, player2);
-// tableStore.addPlayer(TablePosition.HOME_DEF, player3);
-// tableStore.addPlayer(TablePosition.HOME_OFF, player4);
 
 export default tableStore;
