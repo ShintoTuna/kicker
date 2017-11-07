@@ -56,7 +56,7 @@ class Table extends React.Component<Props, State> {
                     {this.state.timer ? 'Pause' : 'Start'}
                 </button>
                 <button onClick={this.resetTimer}>Reset</button>
-                <button onClick={finishGame}>Finish game</button>
+                <button onClick={() => finishGame(this.length - this.state.counter)}>Finish game</button>
                 <button onClick={undo}>Undo</button>
             </div>
 

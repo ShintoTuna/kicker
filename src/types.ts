@@ -11,6 +11,11 @@ export interface Player {
     _id: string;
     firstName: string;
     lastName: string;
+    ratings: {
+        all: number[];
+        off: number[];
+        def: number[];
+    };
 }
 
 export interface Participant {

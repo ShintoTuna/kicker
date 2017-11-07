@@ -19,14 +19,21 @@ export class PlayerStore {
     }
 
     @action async savePlayer(player: { firstName: string; lastName: string; }) {
-        await this.db.push(player);
+        await this.db.push({
+            ...player,
+            ratings: {
+                all: [25.0, 25.0 / 3.0],
+                def: [25.0, 25.0 / 3.0],
+                off: [25.0, 25.0 / 3.0],
+            }
+        });
     }
 
     @action stopLoading = () => this.isLoading = false;
 
     @action updatePlayers(players: {}) {
         this.players = Object.keys(players).reduce(
-            (m, k) => m.set(k, players[k]), new Map<string, Player>()
+            (m, k) => m.set(k, { ...players[k], _id: k }), new Map<string, Player>()
         );
     }
 
