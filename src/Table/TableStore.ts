@@ -102,16 +102,11 @@ export class TableStore {
 
     @action finishGame = () => {
         const game: Game[] = [];
-        this.participants.forEach((participant, pos) => {
+        this.participants.forEach((participant, position) => {
             const { participant: { score: { ownGoals, goals } }, player } = participant;
 
             if (player) {
-                game.push({
-                    position: pos,
-                    player: player,
-                    goals,
-                    ownGoals,
-                });
+                game.push({ position, player, goals, ownGoals });
             }
         });
 
