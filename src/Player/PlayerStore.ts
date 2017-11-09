@@ -1,40 +1,45 @@
 import { observable, action } from 'mobx';
 import * as firebase from 'firebase/app';
 import { Player } from '../types';
-import fb from '../firebase';
+import db from '../firebase';
 
 export class PlayerStore {
     @observable players = new Map<string, Player>();
     @observable isLoading = true;
 
-    db: firebase.database.Reference = fb.database().ref('players/');
+    playersCol = db.collection('players/');
 
     constructor() {
-        this.db.on('value', (players) => {
-            if (players) {
-                this.updatePlayers(players.val());
+        this.playersCol.onSnapshot((snapshot) => {
+            if (snapshot) {
+                this.updatePlayers(snapshot);
                 this.stopLoading();
             }
         });
     }
 
     @action async savePlayer(player: { firstName: string; lastName: string; }) {
-        await this.db.push({
+        this.playersCol.add({
             ...player,
+            avgs: {
+                all: { games: 0, goals: 0, ownGoals: 0 },
+                off: { games: 0, goals: 0, ownGoals: 0 },
+                def: { games: 0, goals: 0, ownGoals: 0 },
+            },
             ratings: {
-                all: [25.0, 25.0 / 3.0],
-                def: [25.0, 25.0 / 3.0],
-                off: [25.0, 25.0 / 3.0],
+                all: { mu: 25.0, sig: 25.0 / 3.0 },
+                def: { mu: 25.0, sig: 25.0 / 3.0 },
+                off: { mu: 25.0, sig: 25.0 / 3.0 },
             }
         });
     }
 
     @action stopLoading = () => this.isLoading = false;
 
-    @action updatePlayers(players: {}) {
-        this.players = Object.keys(players).reduce(
-            (m, k) => m.set(k, { ...players[k], _id: k }), new Map<string, Player>()
-        );
+    @action updatePlayers(players: firebase.firestore.QuerySnapshot) {
+        players.forEach((player) => {
+            this.players.set(player.id, { ...player.data(), _id: player.id } as Player);
+        });
     }
 
     @action findPlayer(id: string) {

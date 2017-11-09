@@ -11,10 +11,15 @@ export interface Player {
     _id: string;
     firstName: string;
     lastName: string;
+    avgs: {
+        all: { games: number, goals: number, ownGoals: number };
+        off: { games: number, goals: number, ownGoals: number };
+        def: { games: number, goals: number, ownGoals: number };
+    };
     ratings: {
-        all: number[];
-        off: number[];
-        def: number[];
+        all: { mu: number, sig: number },
+        def: { mu: number, sig: number },
+        off: { mu: number, sig: number },
     };
 }
 

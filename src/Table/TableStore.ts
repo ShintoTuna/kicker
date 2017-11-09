@@ -2,13 +2,13 @@ import { observable, action, computed, toJS } from 'mobx';
 import { Participant, Player, TablePosition, GameEvent, GameActions, Game } from '../types';
 import ParticipantStore from './ParticipantStore';
 import * as firebase from 'firebase/app';
-import fb from '../firebase';
+import db from '../firebase';
 
 export class TableStore {
     @observable participants = new Map<TablePosition, Participant>();
     @observable events: GameEvent[] = [];
 
-    db: firebase.database.Reference = fb.database().ref('games/');
+    gamesCol = db.collection('games/');
 
     @computed get pickParticipants() {
         return this.participants.size < 4;
@@ -113,7 +113,9 @@ export class TableStore {
         });
 
         if (game.length === 4) {
-            this.db.push({ game, time });
+            this.gamesCol.add({
+                game, length: time, timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
 
             this.events = [];
             this.participants = new Map();

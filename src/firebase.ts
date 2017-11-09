@@ -1,5 +1,5 @@
 import * as firebase from 'firebase/app';
-import 'firebase/database';
+import 'firebase/firestore';
 
 var config = {
     apiKey: 'AIzaSyCWJJf9n8qEpKv1EEleTcC60butLJ8rozg',
@@ -10,6 +10,8 @@ var config = {
     messagingSenderId: '1056769390471'
 };
 
-const fb: firebase.app.App = firebase.initializeApp(config);
+firebase.initializeApp(config);
 
-export default fb;
+var db = firebase.firestore();
+
+export default db;
