@@ -1,6 +1,6 @@
 const trueskill = require('trueskill');
 
-function reCalc(data) {
+function reCalcRating(data) {
     const { game } = data;
     const sideScores = getSideScores(game);
     const { awayTotal, homeTotal } = sideScores
@@ -69,13 +69,53 @@ function getSideScores(data) {
     }, { awayTotal: 0, homeTotal: 0 })
 }
 
+// "avgs": {
+//     "all": {
+//         "games": 0,
+//         "goals": 0,
+//         "ownGoals": 0
+//     },
+//     "def": {
+//         "games": 0,
+//         "goals": 0,
+//         "ownGoals": 0
+//     },
+//     "off": {
+//         "games": 0,
+//         "goals": 0,
+//         "ownGoals": 0
+//     }
+// },
+
+function reCalcAvg(pos) {
+    const { player: { avgs }, position, goals, ownGoals } = pos;
+
+    const newAvgs = {
+        all: {
+            games: avgs.all.games + 1,
+            goals: avgs.all.goals + goals,
+            ownGoals: avgs.all.ownGoals + ownGoals,
+        }
+    }
+    const posName = isDef(position) ? 'def' : 'off';
+
+    newAvgs[posName] = {
+        games: avgs[posName].games + 1,
+        goals: avgs[posName].goals + goals,
+        ownGoals: avgs[posName].ownGoals + ownGoals,
+    }
+
+    return Object.assign({}, avgs, newAvgs);
+}
+
 const isHome = (pos) => ['HOME_DEF', 'HOME_OFF'].includes(pos);
 const isAway = (pos) => ['AWAY_DEF', 'AWAY_OFF'].includes(pos);
 const isDef = (pos) => ['AWAY_DEF', 'HOME_DEF'].includes(pos);
 const isOff = (pos) => ['AWAY_OFF', 'HOME_OFF'].includes(pos);
 
 module.exports = {
-    reCalc,
+    reCalcRating,
+    reCalcAvg,
     getSideScores,
     isAway,
     isHome,

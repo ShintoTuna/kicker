@@ -1,14 +1,19 @@
-const { isHome, isAway, getSideScores, reCalc } = require('../recalc');
+const { isHome, isAway, getSideScores, reCalcRating, reCalcAvg } = require('../recalc');
 
 const game = {
     "game": [{
-        "goals": 0, "ownGoals": 1, "position": "AWAY_DEF",
+        "goals": 1, "ownGoals": 1, "position": "AWAY_DEF",
         "player": {
             "ratings": {
                 "all": { "mu": 25, "sig": 8.333333333333334 },
                 "def": { "mu": 25, "sig": 8.333333333333334 },
                 "off": { "mu": 25, "sig": 8.333333333333334 },
-            }
+            },
+            "avgs": {
+                "all": { "games": 0, "goals": 0, "ownGoals": 0 },
+                "def": { "games": 0, "goals": 0, "ownGoals": 0 },
+                "off": { "games": 0, "goals": 0, "ownGoals": 0 }
+            },
         },
     },
     {
@@ -20,7 +25,12 @@ const game = {
                 "all": { "mu": 25, "sig": 8.333333333333334 },
                 "def": { "mu": 25, "sig": 8.333333333333334 },
                 "off": { "mu": 25, "sig": 8.333333333333334 },
-            }
+            },
+            "avgs": {
+                "all": { "games": 0, "goals": 0, "ownGoals": 0 },
+                "def": { "games": 0, "goals": 0, "ownGoals": 0 },
+                "off": { "games": 0, "goals": 0, "ownGoals": 0 }
+            },
         },
     },
     {
@@ -32,7 +42,12 @@ const game = {
                 "all": { "mu": 25, "sig": 8.333333333333334 },
                 "def": { "mu": 25, "sig": 8.333333333333334 },
                 "off": { "mu": 25, "sig": 8.333333333333334 },
-            }
+            },
+            "avgs": {
+                "all": { "games": 0, "goals": 0, "ownGoals": 0 },
+                "def": { "games": 0, "goals": 0, "ownGoals": 0 },
+                "off": { "games": 0, "goals": 0, "ownGoals": 0 }
+            },
         },
     },
     {
@@ -44,7 +59,12 @@ const game = {
                 "all": { "mu": 25, "sig": 8.333333333333334 },
                 "def": { "mu": 25, "sig": 8.333333333333334 },
                 "off": { "mu": 25, "sig": 8.333333333333334 },
-            }
+            },
+            "avgs": {
+                "all": { "games": 0, "goals": 0, "ownGoals": 0 },
+                "def": { "games": 0, "goals": 0, "ownGoals": 0 },
+                "off": { "games": 0, "goals": 0, "ownGoals": 0 }
+            },
         },
     }
     ],
@@ -68,14 +88,14 @@ test('isAway', () => {
 test('getSideScores', () => {
     const g = { ...game };
     const expected = getSideScores(g.game);
-    const actual = { homeTotal: 6, awayTotal: 7 };
+    const actual = { homeTotal: 6, awayTotal: 8 };
 
     expect(expected).toEqual(actual);
 })
 
-test('reCalc', () => {
+test('reCalcRating', () => {
     const g = { ...game };
-    const { game: [p1, p2, p3, p4], length } = reCalc(g);
+    const { game: [p1, p2, p3, p4], length } = reCalcRating(g);
 
     // AWAY_DEF
     expect(p1.player.ratings.all).not.toEqual(p1.player.adjustedRatings.all)
@@ -98,4 +118,25 @@ test('reCalc', () => {
     expect(p4.player.ratings.off).not.toEqual(p4.player.adjustedRatings.off)
 
     expect(length).toBe(g.length)
+})
+
+test('reCalcAvg', () => {
+    const g = { ...game };
+    const participant = g.game[0]
+    const newAvgs = reCalcAvg(participant);
+
+    console.log(newAvgs);
+
+    // AWAY_DEF
+    expect(newAvgs.all.games).toBe(1)
+    expect(newAvgs.all.goals).toBe(1)
+    expect(newAvgs.all.ownGoals).toBe(1)
+
+    expect(newAvgs.def.games).toBe(1)
+    expect(newAvgs.def.goals).toBe(1)
+    expect(newAvgs.def.ownGoals).toBe(1)
+
+    expect(newAvgs.off.games).toBe(0)
+    expect(newAvgs.off.goals).toBe(0)
+    expect(newAvgs.off.ownGoals).toBe(0)
 })
