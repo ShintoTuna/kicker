@@ -8,21 +8,17 @@ exports.recalc = functions.firestore
     .document('/games/{gameID}').onCreate((event) => {
         const store = admin.firestore();
         const data = event.data.data();
-        const updatedData = reCalcRating(data)
+        const updatedData = reCalcRating(data);
+        const batch = store.batch();
 
-        const updates = [];
         updatedData.game.forEach((p) => {
-            const playerID = p.player._id;
-
-            const promise = store.collection('/players').doc(playerID).update({
+            batch.update(store.collection('/players').doc(p.player._id), {
                 ratings: p.player.adjustedRatings,
                 avgs: reCalcAvg(p),
-            });
-
-            updates.push(promise);
+            })
         });
 
-        updates.push(event.data.ref.set(updatedData));
+        batch.set(event.data.ref, updatedData);
 
-        return Promise.all(updates);
+        return batch.commit();
     });
