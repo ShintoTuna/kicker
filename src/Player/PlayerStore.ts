@@ -1,6 +1,7 @@
 import { observable, action } from 'mobx';
 import * as firebase from 'firebase/app';
-import { Player } from '../types';
+import { Player, RankingPos, RankingType } from '../types';
+import { formatRating, formatGoals } from '../utils';
 import db from '../firebase';
 
 export class PlayerStore {
@@ -44,6 +45,21 @@ export class PlayerStore {
 
     @action findPlayer(id: string) {
         this.players.get(id);
+    }
+
+    @action getSortedPlayers = (pos: RankingPos, type: RankingType) => {
+        type P = [string, Player];
+
+        const sorts = {
+            rating: (a: P, b: P) => formatRating(b[1].ratings[pos]) - formatRating(a[1].ratings[pos]),
+            goals: (a: P, b: P) => formatGoals(b[1].avgs[pos]) - formatGoals(a[1].avgs[pos]),
+            ownGoals: (a: P, b: P) => formatGoals(b[1].avgs[pos], true) - formatGoals(a[1].avgs[pos], true),
+        };
+
+        const playersArray: P[] = Array.from(this.players.entries())
+            .sort(sorts[type]);
+
+        return new Map<string, Player>(playersArray);
     }
 }
 

@@ -3,3 +3,47 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+.app {
+  padding: 1em;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+td, th {
+  padding: .5em;
+  margin: 0;
+  border: 0;
+}
+
+td.num { text-align: right; }
+td.sort, th.sort { background-color: lightsalmon; }
+
+tr:nth-child(2n + 1) {
+  background-color: lightblue;
+}
+
+.tabs {
+  margin: 0 0 1em 0;
+  padding: 0;
+}
+
+.tabs li {
+  list-style: none;
+  display: inline-block;
+}
+
+.tabs li a {
+  display: block;
+  padding: .5em;
+  text-decoration: none;
+  color: salmon
+}
+
+.tabs li a.type {
+  background-color: lightsalmon;
+  color: brown;
+}

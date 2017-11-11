@@ -5,6 +5,7 @@ import Players from './Player/Players';
 import DevTools from 'mobx-react-devtools';
 import { observer, inject } from 'mobx-react';
 import { AppStore, Views } from './AppStore';
+import Rankings from './Player/Rankings';
 
 @inject('appStore')
 @observer
@@ -15,7 +16,7 @@ class App extends React.Component<{ appStore?: AppStore }> {
     if (!appStore) { return null; }
 
     return (
-      <div className="App">
+      <div className="app">
         {this.renderView(appStore)}
         <DevTools />
       </div>
@@ -27,6 +28,7 @@ class App extends React.Component<{ appStore?: AppStore }> {
       case Views.home: return <NewGame />;
       case Views.game: return <Table />;
       case Views.pickParticipants: return <Players />;
+      case Views.rankings: return <Rankings />;
       default: return null;
     }
   }

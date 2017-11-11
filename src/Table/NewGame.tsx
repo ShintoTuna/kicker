@@ -12,19 +12,15 @@ class NewGame extends React.Component<{ appStore?: AppStore }> {
 
         return (
             <div>
-                <button onClick={this.handleScoreGame}>New Game</button>
-                <button>Rankings</button>
+                <button onClick={() => this.handleScoreGame(appStore)}>New Game</button>
+                <button onClick={() => this.showRankings(appStore)}>Rankings</button>
             </div>
         );
     }
 
-    private handleScoreGame = () => {
-        const { appStore } = this.props;
+    private handleScoreGame = (appStore: AppStore) => appStore.newGame();
 
-        if (appStore) {
-            appStore.newGame();
-        }
-    }
+    private showRankings = (appStore: AppStore) => appStore.rankings();
 }
 
 export default NewGame;

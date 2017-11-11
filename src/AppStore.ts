@@ -5,14 +5,18 @@ import tableStore from './Table/TableStore';
 export enum Views {
     home = 'home',
     pickParticipants = 'pickParticipants',
-    game = 'game'
+    game = 'game',
+    rankings = 'rankings',
 }
 
 export class AppStore {
     @observable gameStarted: boolean = false;
+    @observable showRankings: boolean = false;
 
     @computed get view(): Views {
         if (!this.gameStarted) {
+            return Views.rankings;
+        } else if (!this.gameStarted) {
             return Views.home;
         } else if (this.gameStarted && this.pickParticipants) {
             return Views.pickParticipants;
@@ -29,6 +33,10 @@ export class AppStore {
 
     @action newGame = () => {
         this.gameStarted = true;
+    }
+
+    @action rankings = () => {
+        this.showRankings = true;
     }
 }
 

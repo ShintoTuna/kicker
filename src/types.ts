@@ -7,20 +7,27 @@ export enum TablePosition {
     HOME_OFF = 'HOME_OFF',
 }
 
+export type RankingPos = 'off' | 'def' | 'all';
+
+export type RankingType = 'rating' | 'goals' | 'ownGoals';
+
+export interface Rating {
+    mu: number;
+    sig: number;
+}
+
+export interface Goals {
+    games: number;
+    goals: number;
+    ownGoals: number;
+}
+
 export interface Player {
     _id: string;
     firstName: string;
     lastName: string;
-    avgs: {
-        all: { games: number, goals: number, ownGoals: number };
-        off: { games: number, goals: number, ownGoals: number };
-        def: { games: number, goals: number, ownGoals: number };
-    };
-    ratings: {
-        all: { mu: number, sig: number },
-        def: { mu: number, sig: number },
-        off: { mu: number, sig: number },
-    };
+    avgs: { all: Goals, off: Goals, def: Goals };
+    ratings: { all: Rating, def: Rating, off: Rating };
 }
 
 export interface Participant {
