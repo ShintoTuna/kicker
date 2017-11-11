@@ -5,6 +5,8 @@ import { TableStore } from '../Table/TableStore';
 import { Player } from '../types';
 import PlayerRow from './PlayerRow';
 import PlayerAdd from './PlayerAdd';
+import SectionTitle from './SectionTitle';
+import './Players.css';
 
 interface Props {
     playerStore?: PlayerStore;
@@ -36,8 +38,8 @@ class Players extends React.Component<Props, State> {
         const { players, isLoading } = playerStore;
 
         return (
-            <div>
-                <h2>Players</h2>
+            <div className="player-select">
+                <SectionTitle title="Select Players" />
                 <div>
                     {!isLoading && Array.from(players.entries()).map(([id, player]) =>
                         <PlayerRow
@@ -49,9 +51,8 @@ class Players extends React.Component<Props, State> {
                     )}
                     {isLoading && <div>Loading..</div>}
                 </div>
-                {<PlayerAdd />}
-
-                <button>Start</button>
+                <h3>Add player</h3>
+                <PlayerAdd />
             </div>
         );
     }

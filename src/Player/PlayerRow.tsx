@@ -20,10 +20,10 @@ class PlayerRow extends React.Component<Props, State> {
 
     public render() {
         const { player: { firstName, lastName } } = this.props;
-        const style = { border: this.state.isSelected ? '2px dashed black' : '' };
+        const selected = this.state.isSelected ? 'selected' : '';
 
         return (
-            <div onClick={this.handleSelect} style={style}>
+            <div onClick={this.handleSelect} className={`${selected} player`}>
                 {`${firstName} ${lastName}`}
             </div>
         );

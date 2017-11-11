@@ -3,6 +3,8 @@ import { inject, observer } from 'mobx-react';
 import { TableStore } from './TableStore';
 import Participant from './Participant';
 import { TablePosition } from '../types';
+import Players from '../Player/Players';
+import './Table.css';
 
 interface Props {
     tableStore?: TableStore;
@@ -13,6 +15,7 @@ interface State {
     timer: number;
     pickParticipants: boolean;
     forSwap: TablePosition | null;
+    sidesReverse: boolean;
 }
 
 @inject('tableStore')
@@ -24,6 +27,7 @@ class Table extends React.Component<Props, State> {
         timer: 0,
         pickParticipants: false,
         forSwap: null,
+        sidesReverse: false,
     };
 
     public render() {
@@ -31,12 +35,26 @@ class Table extends React.Component<Props, State> {
 
         if (!tableStore) { return null; }
 
-        return this.renderTable(tableStore);
+        return tableStore.pickParticipants ? <Players /> : this.renderTable(tableStore);
     }
 
-    private renderTable = ({ participants, scoreGoal, scoreOwnGoal, score, events, undo, finishGame }: TableStore) => (
+    private renderTable =
+    ({ participants, scoreGoal, scoreOwnGoal, score, events, undo, finishGame, cancelGame }: TableStore) => (
         <div className="table">
-            <ul>
+            <div className={`timer ${this.state.counter <= 0 ? 'blink' : ''}`}>
+                <button onClick={this.resetTimer}>
+                    <i className={`fa fa-lg fa-refresh`} aria-hidden="true" />
+                </button>
+                <span>{this.time()}</span>
+                <button onClick={this.startTimer}>
+                    <i className={`fa fa-lg ${!this.state.timer ? 'fa-play' : 'fa-pause'}`} aria-hidden="true" />
+                </button>
+            </div>
+            <div className="score">
+                <span className="away">{score.away}</span>
+                <span className="home">{score.home}</span>
+            </div>
+            <ul className={`game ${this.state.sidesReverse ? 'reverse' : ''}`}>
                 {Array.from(participants.entries()).map((participant, i) =>
                     participant && <Participant
                         key={i}
@@ -47,24 +65,27 @@ class Table extends React.Component<Props, State> {
                     />
                 )}
             </ul>
-            <div>
-                Away: {score.away} | Home: {score.home}
-            </div>
-            <div>
-                time: {this.time()}
-                <button onClick={this.startTimer}>
-                    {this.state.timer ? 'Pause' : 'Start'}
-                </button>
-                <button onClick={this.resetTimer}>Reset</button>
-                <button onClick={() => finishGame(this.length - this.state.counter)}>Finish game</button>
-                <button onClick={undo}>Undo</button>
-            </div>
 
+            <div className="controls">
+                <button onClick={cancelGame}>Cancel</button>
+                <button onClick={undo}>Undo</button>
+                <button onClick={this.switchSides}>Switch Sides</button>
+                <button
+                    className="finish"
+                    onClick={() => finishGame(this.length - this.state.counter)}
+                >
+                    Finish game
+                </button>
+            </div>
             <div>
-                {events.map((e, i) => <div key={i}>{e.action} {e.position}</div>)}
+                {/* {events.map((e, i) => <div key={i}>{e.action} {e.position}</div>)} */}
             </div>
         </div>
     )
+
+    private switchSides = () => {
+        this.setState({ sidesReverse: !this.state.sidesReverse });
+    }
 
     private forSwap = (pos: TablePosition) => {
         const { tableStore } = this.props;

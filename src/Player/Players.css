@@ -1,0 +1,32 @@
+.player {
+    padding: .5em;
+    margin: .1em;
+    border: 2px solid white;
+}
+
+.player:nth-child(2n + 1) {
+    background: lightblue;
+}
+
+.player.selected {
+    border: 2px dashed darkslategray;
+}
+
+.add-player input[type="text"] {
+    border: 1px solid darkslategray;
+    padding: .5em;
+    font-size: 1em;
+    width: 100%;
+    display: block;
+    margin-bottom: .5em;
+    outline: none;
+}
+
+.add-player button {
+    border: 1px solid darkslategray;
+    background: lightblue;
+    padding: .5em;
+    font-size: 1em;
+    display: block;
+    width: 100%;
+}

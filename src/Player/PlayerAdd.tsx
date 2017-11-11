@@ -13,7 +13,7 @@ class PlayerAdd extends React.Component<Props> {
 
     render() {
         return (
-            <div>
+            <div className="add-player">
                 <input
                     type="text"
                     name="firstName"

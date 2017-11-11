@@ -3,6 +3,7 @@ import { PlayerStore } from './PlayerStore';
 import { formatRating, formatGoals } from '../utils';
 import { RankingPos, RankingType, Player } from '../types';
 import { observer, inject } from 'mobx-react';
+import SectionTitle from './SectionTitle';
 
 interface Props {
     playerStore?: PlayerStore;
@@ -14,7 +15,6 @@ interface State {
 }
 
 @inject('playerStore')
-@inject('appStore')
 @observer
 class Rankings extends React.Component<Props, State> {
     state = {
@@ -33,7 +33,7 @@ class Rankings extends React.Component<Props, State> {
 
         return (
             <div className="rankings">
-                <h2>Rankings</h2>
+                <SectionTitle title="Rankings" />
                 <ul className="tabs">
                     {this.renderTab('rating', 'Rating')}
                     {this.renderTab('goals', 'Goals')}

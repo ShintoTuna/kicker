@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Table from './Table/Table';
 import NewGame from './Table/NewGame';
-import Players from './Player/Players';
 import DevTools from 'mobx-react-devtools';
 import { observer, inject } from 'mobx-react';
 import { AppStore, Views } from './AppStore';
@@ -27,7 +26,6 @@ class App extends React.Component<{ appStore?: AppStore }> {
     switch (view) {
       case Views.home: return <NewGame />;
       case Views.game: return <Table />;
-      case Views.pickParticipants: return <Players />;
       case Views.rankings: return <Rankings />;
       default: return null;
     }

@@ -1,0 +1,120 @@
+.table {
+    position: relative;
+}
+
+.blink {
+    animation: blinker 1s infinite alternate;
+}
+
+@keyframes blinker {
+    0% { background: white; }
+    100% { background: red; }
+}
+
+.game {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap
+}
+
+.game li {
+    width: 50%;
+    padding: .25em;
+}
+
+.game li.away button,
+.game li.away .score-btn
+{
+    background: lightsalmon;
+    /* box-shadow: 0px 0px 5px 0px rgba(160,82,45,0.5); */
+}
+
+.game li.home button,
+.game li.home .score-btn {
+    background: lightblue;
+    /* box-shadow: 0px 0px 5px 0px rgba(65,105,225,0.5); */
+}
+
+.game.reverse li.away button,
+.game.reverse li.away .score-btn
+{
+    background: lightblue;
+    /* box-shadow: 0px 0px 5px 0px rgba(65,105,225,0.5); */
+}
+
+.game.reverse li.home button,
+.game.reverse li.home .score-btn {
+    background: lightsalmon;
+    /* box-shadow: 0px 0px 5px 0px rgba(160,82,45,0.5); */
+}
+
+.game li button {
+    margin: .5em auto 0;
+    padding: 1em;
+    width: 50%;
+    border: 0;
+    outline: none;
+}
+
+.score-btn {
+    display: flex;
+    width: 100%;
+    height: 10em;
+    align-content: space-between;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.score {
+    text-align: center;
+    font-size: 2em;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: .125em;
+}
+
+.score span {
+    padding: .5em 0;
+    margin: 0 .125em;
+}
+
+.score .away { background: lightsalmon; padding: .5em 1em; }
+.score .home { background: lightblue; padding: .5em 1em; }
+
+.controls {
+    display: flex;
+}
+
+.controls button {
+    background: lightblue;
+    border: 1px solid darkslategray;
+    width: 33%;
+    margin: .25em;
+    padding: 1em;
+}
+
+.controls button.finish {
+    background: lightsalmon;
+}
+
+.timer {
+    font-size: 2em;
+    text-align: center;
+    padding: .5em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: .25em;
+}
+
+.timer button {
+    border: 0;
+    background: none;
+}

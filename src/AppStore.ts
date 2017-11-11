@@ -1,6 +1,4 @@
-import { observable, computed, action } from 'mobx';
-import tableStore from './Table/TableStore';
-// import { Participant, Player, TablePosition } from './types';
+import { observable, action } from 'mobx';
 
 export enum Views {
     home = 'home',
@@ -10,33 +8,18 @@ export enum Views {
 }
 
 export class AppStore {
-    @observable gameStarted: boolean = false;
-    @observable showRankings: boolean = false;
-
-    @computed get view(): Views {
-        if (!this.gameStarted) {
-            return Views.rankings;
-        } else if (!this.gameStarted) {
-            return Views.home;
-        } else if (this.gameStarted && this.pickParticipants) {
-            return Views.pickParticipants;
-        } else if (this.gameStarted && !this.pickParticipants) {
-            return Views.game;
-        } else {
-            return Views.game;
-        }
-    }
-
-    @computed get pickParticipants() {
-        return tableStore.participants.size < 4;
-    }
+    @observable view = Views.home;
 
     @action newGame = () => {
-        this.gameStarted = true;
+        this.view = Views.game;
     }
 
-    @action rankings = () => {
-        this.showRankings = true;
+    @action goHome = () => {
+        this.view = Views.home;
+    }
+
+    @action showRankings = () => {
+        this.view = Views.rankings;
     }
 }
 

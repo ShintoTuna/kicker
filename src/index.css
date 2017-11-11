@@ -1,7 +1,14 @@
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: Verdana, sans-serif;
+  color: darkslategrey;
+  box-sizing: border-box;
 }
 
 .app {
@@ -40,10 +47,21 @@ tr:nth-child(2n + 1) {
   display: block;
   padding: .5em;
   text-decoration: none;
-  color: salmon
+  color: darkslategray
 }
 
 .tabs li a.type {
   background-color: lightsalmon;
-  color: brown;
+  color: darkslategray;
+}
+
+.section-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.section-title button {
+  font-size: 1.5em;
+  padding: .5em 1em .5em .3em;
 }

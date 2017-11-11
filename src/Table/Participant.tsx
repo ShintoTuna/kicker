@@ -13,13 +13,17 @@ interface Props {
 class Participant extends React.Component<Props> {
     public render() {
         const [pos, { player, participant: { score: { goals, ownGoals } } }] = this.props.participant;
+        const posName = this.positionName(pos);
+        const posIcon = posName[1] === 'DEF' ? 'fa-shield' : 'fa-bullseye';
 
         return (
-            <li>
-                {this.positionName(pos)}
-                {goals} ({ownGoals})
-                {player && ` ${player.firstName} ${player.lastName} `}
-                <button onClick={() => this.props.scoreGoal(pos)}>Goal</button>
+            <li className={posName.join(' ').toLowerCase()}>
+                <div className="score-btn" onClick={() => this.props.scoreGoal(pos)}>
+                    <i className={`fa fa-3x ${posIcon}`} aria-hidden="true" />
+                    {player && ` ${player.firstName} ${player.lastName.charAt(0)}.`}
+                    <span>{`${goals} (${ownGoals})`}</span>
+                </div>
+
                 <button onClick={() => this.props.scoreOwnGoal(pos)}>Own Goal</button>
                 <button onClick={() => this.props.swap(pos)}>swap</button>
             </li>
@@ -29,15 +33,15 @@ class Participant extends React.Component<Props> {
     private positionName = (pos: TablePosition) => {
         switch (pos) {
             case TablePosition.AWAY_DEF:
-                return 'Away DEF';
+                return ['Away', 'DEF'];
             case TablePosition.AWAY_OFF:
-                return 'Away OFF';
+                return ['Away', 'OFF'];
             case TablePosition.HOME_DEF:
-                return 'Home DEF';
+                return ['Home', 'DEF'];
             case TablePosition.HOME_OFF:
-                return 'Home OFF';
+                return ['Home', 'OFF'];
             default:
-                return '';
+                return [];
         }
     }
 }

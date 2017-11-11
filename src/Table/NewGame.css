@@ -1,0 +1,16 @@
+.new-game {
+    display: flex
+}
+
+.new-game button {
+    display: block;
+    margin: 2em auto;
+    font-size: 1em;
+    background: lightblue;
+    border: 1px solid darkslategray;
+    padding: 1em;
+}
+
+.new-game button.start {
+    background: lightsalmon;
+}

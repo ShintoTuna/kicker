@@ -37,14 +37,19 @@ export class TableStore {
         }
     }
 
+    @action cancelGame = () => {
+        this.events = [];
+        this.participants = new Map();
+    }
+
     @action addPlayerRandomly(player: Player) {
-        if (!this.participants.has(TablePosition.AWAY_DEF)) {
-            this.participants.set(TablePosition.AWAY_DEF, {
-                player, participant: new ParticipantStore(TablePosition.AWAY_DEF, this.events),
-            });
-        } else if (!this.participants.has(TablePosition.AWAY_OFF)) {
+        if (!this.participants.has(TablePosition.AWAY_OFF)) {
             this.participants.set(TablePosition.AWAY_OFF, {
                 player, participant: new ParticipantStore(TablePosition.AWAY_OFF, this.events),
+            });
+        } else if (!this.participants.has(TablePosition.AWAY_DEF)) {
+            this.participants.set(TablePosition.AWAY_DEF, {
+                player, participant: new ParticipantStore(TablePosition.AWAY_DEF, this.events),
             });
         } else if (!this.participants.has(TablePosition.HOME_DEF)) {
             this.participants.set(TablePosition.HOME_DEF, {
@@ -102,6 +107,7 @@ export class TableStore {
 
     @action finishGame = (time: number) => {
         const game: Game[] = [];
+        const { away, home } = this.score;
         this.participants.forEach((participant, position) => {
             const { participant: { score: { ownGoals, goals } }, player: playerObservable } = participant;
 
@@ -112,9 +118,11 @@ export class TableStore {
             }
         });
 
-        if (game.length === 4) {
+        if (game.length === 4 && away !== home) {
             this.gamesCol.add({
-                game, length: time, timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                game, length: time,
+                score: this.score,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
             });
 
             this.events = [];
