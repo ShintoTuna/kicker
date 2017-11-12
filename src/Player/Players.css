@@ -1,6 +1,6 @@
 .player {
-    padding: .5em;
-    margin: .1em;
+    padding: 1em;
+    margin: .1em 0;
     border: 2px solid white;
 }
 
