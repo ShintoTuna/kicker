@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Table from './Table/Table';
 import NewGame from './Table/NewGame';
-import DevTools from 'mobx-react-devtools';
+// import DevTools from 'mobx-react-devtools';
 import { observer, inject } from 'mobx-react';
 import { AppStore, Views } from './AppStore';
 import Rankings from './Player/Rankings';
@@ -17,7 +17,7 @@ class App extends React.Component<{ appStore?: AppStore }> {
     return (
       <div className="app">
         {this.renderView(appStore)}
-        <DevTools />
+        {/* <DevTools /> */}
       </div>
     );
   }
