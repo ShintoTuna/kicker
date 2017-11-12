@@ -72,7 +72,7 @@ class Table extends React.Component<Props, State> {
                 <button onClick={this.switchSides}>Switch Sides</button>
                 <button
                     className="finish"
-                    onClick={() => finishGame(this.length - this.state.counter)}
+                    onClick={this.finishGame}
                 >
                     Finish game
                 </button>
@@ -141,6 +141,16 @@ class Table extends React.Component<Props, State> {
         const secStr = seconds < 10 ? '0' + seconds : seconds;
 
         return `${minStr}:${secStr}`;
+    }
+
+    private finishGame = () => {
+        const { tableStore } = this.props;
+        const time = this.length - this.state.counter;
+
+        if (tableStore) {
+            this.resetTimer();
+            tableStore.finishGame(time);
+        }
     }
 }
 

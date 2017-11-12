@@ -51,3 +51,29 @@ export interface Game {
     goals: number;
     ownGoals: number;
 }
+
+interface PlayedPlayer {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    avgs: { all: Goals, off: Goals, def: Goals };
+    ratings: { all: Rating, def: Rating, off: Rating };
+    adjustedRatings: { all: Rating, def: Rating, off: Rating };
+}
+
+export interface PlayedParticipant {
+    goals: number;
+    ownGoals: number;
+    position: TablePosition;
+    player: PlayedPlayer;
+}
+
+export interface PlayedGame {
+    game: PlayedParticipant[];
+    length: number;
+    score: {
+        home: number;
+        away: number;
+    };
+    timestamp: number;
+}

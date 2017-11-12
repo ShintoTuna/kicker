@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { observer, inject } from 'mobx-react';
 import { AppStore } from '../AppStore';
+import Games from '../Games/Games';
 import './NewGame.css';
 
 @inject('appStore')
@@ -12,9 +13,12 @@ class NewGame extends React.Component<{ appStore?: AppStore }> {
         if (!appStore) { return null; }
 
         return (
-            <div className="new-game">
-                <button className="start" onClick={appStore.newGame}>New Game</button>
-                <button onClick={appStore.showRankings}>Rankings</button>
+            <div>
+                <div className="new-game">
+                    <button className="start" onClick={appStore.newGame}>New Game</button>
+                    <button onClick={appStore.showRankings}>Rankings</button>
+                </div>
+                <Games />
             </div>
         );
     }

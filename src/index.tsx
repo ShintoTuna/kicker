@@ -7,11 +7,13 @@ import './index.css';
 import tableStore from './Table/TableStore';
 import playerStore from './Player/PlayerStore';
 import appStore from './AppStore';
+import gamesStore from './Games/GamesStore';
 import './firebase';
 
 useStrict(true);
 
 const stores = {
+  gamesStore,
   playerStore,
   tableStore,
   appStore,

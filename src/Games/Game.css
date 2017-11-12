@@ -1,0 +1,33 @@
+.played-game {
+    font-size: 1em;
+    margin-bottom: 2em;
+}
+
+.played-game .away {
+    background: lightsalmon;
+    flex-direction: row;
+}
+.played-game .home {
+    background: lightblue;
+    flex-direction: row-reverse;
+}
+
+.played-game .participants {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.played-game .participant {
+    width: 50%;
+    display: flex;
+    padding: .3em;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.played-game .participant .name { flex-grow: 2; }
+
+.played-game .away.off { order: 1 }
+.played-game .home.def { order: 2 }
+.played-game .away.def { order: 3 }
+.played-game .home.off { order: 4 }
