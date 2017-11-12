@@ -37,7 +37,7 @@ class Rankings extends React.Component<Props, State> {
                 <ul className="tabs">
                     {this.renderTab('rating', 'Rating')}
                     {this.renderTab('goals', 'Goals')}
-                    {this.renderTab('ownGoals', 'OwnGoals')}
+                    {this.renderTab('ownGoals', 'Own Goals')}
                 </ul>
                 {isLoading ? <div>Loading ..</div> :
 

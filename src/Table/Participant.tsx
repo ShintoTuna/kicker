@@ -24,8 +24,8 @@ class Participant extends React.Component<Props> {
                     <span>{`${goals} (${ownGoals})`}</span>
                 </div>
 
-                <button onClick={() => this.props.scoreOwnGoal(pos)}>Own Goal</button>
-                <button onClick={() => this.props.swap(pos)}>swap</button>
+                <button onClick={() => this.props.scoreOwnGoal(pos)}>Own </button>
+                <button onClick={() => this.props.swap(pos)}>Swap</button>
             </li>
         );
     }

@@ -62,6 +62,8 @@ tr:nth-child(2n + 1) {
 }
 
 .section-title button {
+  background: none;
+  border: 0;
   font-size: 1.5em;
   padding: .5em 1em .5em .3em;
 }
