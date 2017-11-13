@@ -23,9 +23,9 @@ export class PlayerStore {
         this.playersCol.add({
             ...player,
             avgs: {
-                all: { games: 0, goals: 0, ownGoals: 0 },
-                off: { games: 0, goals: 0, ownGoals: 0 },
-                def: { games: 0, goals: 0, ownGoals: 0 },
+                all: { games: 0, goals: 0, ownGoals: 0, wins: 0 },
+                off: { games: 0, goals: 0, ownGoals: 0, wins: 0 },
+                def: { games: 0, goals: 0, ownGoals: 0, wins: 0 },
             },
             ratings: {
                 all: { mu: 25.0, sig: 25.0 / 3.0 },

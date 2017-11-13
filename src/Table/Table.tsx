@@ -50,7 +50,7 @@ class Table extends React.Component<Props, State> {
                     <i className={`fa fa-lg ${!this.state.timer ? 'fa-play' : 'fa-pause'}`} aria-hidden="true" />
                 </button>
             </div>
-            <div className="score">
+            <div className={`score ${this.state.sidesReverse ? 'reverse' : ''}`}>
                 <span className="away">{score.away}</span>
                 <span className="home">{score.home}</span>
             </div>

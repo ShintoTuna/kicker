@@ -20,6 +20,7 @@ export interface Goals {
     games: number;
     goals: number;
     ownGoals: number;
+    wins: number;
 }
 
 export interface Player {
@@ -52,20 +53,23 @@ export interface Game {
     ownGoals: number;
 }
 
-interface PlayedPlayer {
-    _id: string;
-    firstName: string;
-    lastName: string;
-    avgs: { all: Goals, off: Goals, def: Goals };
-    ratings: { all: Rating, def: Rating, off: Rating };
-    adjustedRatings: { all: Rating, def: Rating, off: Rating };
+export interface PreparedGame {
+    position: TablePosition;
+    playerId: string;
+    goals: number;
+    ownGoals: number;
 }
 
 export interface PlayedParticipant {
     goals: number;
     ownGoals: number;
     position: TablePosition;
-    player: PlayedPlayer;
+    avgs: { all: Goals, off: Goals, def: Goals };
+    ratings: { all: Rating, def: Rating, off: Rating };
+    adjustedRatings: { all: Rating, def: Rating, off: Rating };
+    firstName: string;
+    lastName: string;
+    playerId: string;
 }
 
 export interface PlayedGame {

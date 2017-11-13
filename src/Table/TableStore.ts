@@ -1,6 +1,7 @@
-import { observable, action, computed, toJS } from 'mobx';
-import { Participant, Player, TablePosition, GameEvent, GameActions, Game } from '../types';
+import { observable, action, computed } from 'mobx';
+import { Participant, Player, TablePosition, GameEvent, GameActions, PreparedGame } from '../types';
 import ParticipantStore from './ParticipantStore';
+import appStore from '../AppStore';
 import * as firebase from 'firebase/app';
 import db from '../firebase';
 
@@ -106,27 +107,26 @@ export class TableStore {
     }
 
     @action finishGame = (time: number) => {
-        const game: Game[] = [];
+        const game: PreparedGame[] = [];
         const { away, home } = this.score;
         this.participants.forEach((participant, position) => {
-            const { participant: { score: { ownGoals, goals } }, player: playerObservable } = participant;
-
-            const player = toJS(playerObservable);
+            const { participant: { score: { ownGoals, goals } }, player } = participant;
 
             if (player) {
-                game.push({ position, player, goals, ownGoals });
+                game.push({ position, playerId: player._id, goals, ownGoals });
             }
         });
 
         if (game.length === 4 && away !== home) {
             this.gamesCol.add({
-                game, length: time,
-                score: this.score,
+                game,
+                length: time,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             });
 
             this.events = [];
             this.participants = new Map();
+            appStore.goHome();
         }
     }
 }
