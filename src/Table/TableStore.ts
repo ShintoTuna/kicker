@@ -106,9 +106,10 @@ export class TableStore {
         this.events.push({ action: GameActions.SCORE_OWN_GOAL, position });
     }
 
-    @action finishGame = (time: number) => {
+    @action finishGame = (time: number, reverse: boolean) => {
         const game: PreparedGame[] = [];
         const { away, home } = this.score;
+
         this.participants.forEach((participant, position) => {
             const { participant: { score: { ownGoals, goals } }, player } = participant;
 
@@ -121,6 +122,7 @@ export class TableStore {
             this.gamesCol.add({
                 game,
                 length: time,
+                reverse,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             });
 

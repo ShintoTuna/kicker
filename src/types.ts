@@ -75,6 +75,7 @@ export interface PlayedParticipant {
 export interface PlayedGame {
     game: PlayedParticipant[];
     length: number;
+    reverse: boolean;
     score: {
         home: number;
         away: number;

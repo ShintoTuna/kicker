@@ -1,22 +1,30 @@
 import * as React from 'react';
 import { PlayedGame, PlayedParticipant } from '../types';
+import { observer, inject } from 'mobx-react';
+import { GamesStore } from './GamesStore';
 import './Game.css';
 
 interface Props {
     game: [string, PlayedGame];
+    gamesStore?: GamesStore;
 }
-
+@inject('gamesStore')
+@observer
 class Game extends React.Component<Props> {
     public render() {
-        const { game: [, gameObj] } = this.props;
-        const { score = { away: '-', home: '-' }, game } = gameObj;
+        const { game: [, gameObj], gamesStore } = this.props;
+        const { score = { away: '-', home: '-' }, game, reverse } = gameObj;
+
+        if (!gamesStore) { return null; }
 
         return (
             <div className="played-game">
                 <div className="score">
+                    <button disabled={true}>Delete</button>
                     <div>{score.away} : {score.home}</div>
+                    <button onClick={() => gamesStore.loadGame(gameObj)}>Load</button>
                 </div>
-                <div className="participants">
+                <div className={`participants ${reverse ? 'reverse' : ''}`}>
                     {game.map((participant, i) => this.renderParticipant(participant))}
                 </div>
             </div>

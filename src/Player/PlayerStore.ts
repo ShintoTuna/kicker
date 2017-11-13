@@ -44,7 +44,7 @@ export class PlayerStore {
     }
 
     @action findPlayer(id: string) {
-        this.players.get(id);
+        return this.players.get(id);
     }
 
     @action getSortedPlayers = (pos: RankingPos, type: RankingType) => {

@@ -149,7 +149,7 @@ class Table extends React.Component<Props, State> {
 
         if (tableStore) {
             this.resetTimer();
-            tableStore.finishGame(time);
+            tableStore.finishGame(time, this.state.sidesReverse);
         }
     }
 }
