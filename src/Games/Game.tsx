@@ -2,6 +2,7 @@ import * as React from 'react';
 import { PlayedGame, PlayedParticipant } from '../types';
 import { observer, inject } from 'mobx-react';
 import { GamesStore } from './GamesStore';
+import * as moment from 'moment';
 import './Game.css';
 
 interface Props {
@@ -13,16 +14,18 @@ interface Props {
 class Game extends React.Component<Props> {
     public render() {
         const { game: [, gameObj], gamesStore } = this.props;
-        const { score = { away: '-', home: '-' }, game, reverse } = gameObj;
+        const { score = { away: '-', home: '-' }, game, reverse, timestamp } = gameObj;
 
         if (!gamesStore) { return null; }
 
         return (
             <div className="played-game">
-                <div className="score">
-                    <button disabled={true}>Delete</button>
-                    <div>{score.away} : {score.home}</div>
-                    <button onClick={() => gamesStore.loadGame(gameObj)}>Load</button>
+                <div className="final-score">
+                    <div className="time">
+                        {timestamp && moment(Date.parse(timestamp.toString())).fromNow()}
+                    </div>
+                    <div className="score">{score.away} : {score.home}</div>
+                    <div className="load"><button onClick={() => gamesStore.loadGame(gameObj)}>Load</button></div>
                 </div>
                 <div className={`participants ${reverse ? 'reverse' : ''}`}>
                     {game.map((participant, i) => this.renderParticipant(participant))}

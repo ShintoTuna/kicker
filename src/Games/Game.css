@@ -39,27 +39,27 @@
 .played-game .away.def { order: 3 }
 .played-game .home.off { order: 4 }
 
-.played-game .score {
+.played-game .final-score {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
 }
 
-.played-game .score div {
- }
- .played-game .score div.separator {
- }
-
-.played-game .score button {
+.played-game .final-score button {
     border: 1px solid darkslategray;
     background-color: lightblue;
     color: darkslategray;
-    width: 5em;
+    padding: 1em 2em;
 }
 
-.played-game .score button:disabled {
-    border: none;
-    background-color: lightgray;
+.played-game .time {
     color: gray;
-    width: 5em;
+    font-size: 1em;
+    width: 30%;
+}
+
+.played-game .load {
+    width: 30%;
+    text-align: right;
 }

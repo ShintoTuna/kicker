@@ -80,5 +80,5 @@ export interface PlayedGame {
         home: number;
         away: number;
     };
-    timestamp: number;
+    timestamp: string;
 }
