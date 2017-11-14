@@ -14,7 +14,7 @@ export class GamesStore {
 
     constructor() {
         this.gamesCol
-            .orderBy('timestamp', 'asc')
+            .orderBy('timestamp', 'desc')
             .limit(10)
             .onSnapshot((snapshot) => {
                 if (snapshot) {

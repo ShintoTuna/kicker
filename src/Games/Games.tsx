@@ -20,7 +20,7 @@ class Games extends React.Component<Props> {
         return (
             <div className="games">
                 {isLoading ? <span>Loading games ..</span> :
-                    Array.from(games.entries()).reverse().map((game, i) =>
+                    Array.from(games.entries()).map((game, i) =>
                         <Game key={i} game={game} />)}
             </div>
         );
