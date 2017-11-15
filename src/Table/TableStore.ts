@@ -118,17 +118,21 @@ export class TableStore {
             }
         });
 
-        if (game.length === 4 && away !== home) {
-            this.gamesCol.add({
-                game,
-                length: time,
-                reverse,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            });
+        if (game.length === 4) {
+            if (away !== home) {
+                this.gamesCol.add({
+                    game,
+                    length: time,
+                    reverse,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
 
-            this.events = [];
-            this.participants = new Map();
-            appStore.goHome();
+                this.events = [];
+                this.participants = new Map();
+                appStore.goHome();
+            } else {
+                alert(`Game can't tie, score one more!`);
+            }
         }
     }
 }
