@@ -50,6 +50,11 @@
     /* box-shadow: 0px 0px 5px 0px rgba(160,82,45,0.5); */
 }
 
+.game .away.off { order: 1; }
+.game .away.def { order: 2; }
+.game .home.def { order: 3; }
+.game .home.off { order: 4; }
+
 .game li button {
     margin: .5em auto 0;
     padding: 1em;

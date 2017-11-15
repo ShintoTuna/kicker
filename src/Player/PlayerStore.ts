@@ -59,8 +59,7 @@ export class PlayerStore {
                     b[1].avgs[pos].games, b[1].avgs[pos].wins) - formatWins(a[1].avgs[pos].games, a[1].avgs[pos].wins),
         };
 
-        const playersArray: P[] = Array.from(this.players.entries())
-            .sort(sorts[type]);
+        const playersArray: P[] = Array.from(this.players.entries()).sort(sorts[type]);
 
         return new Map<string, Player>(playersArray);
     }
