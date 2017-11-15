@@ -52,7 +52,7 @@ tr:nth-child(2n + 1) {
   color: darkslategray
 }
 
-.tabs li a.type {
+.tabs li a.pos {
   background-color: lightsalmon;
   color: darkslategray;
 }
@@ -68,4 +68,12 @@ tr:nth-child(2n + 1) {
   border: 0;
   font-size: 1.5em;
   padding: .5em 1em .5em .3em;
+}
+
+.legend {
+  font-size: .7em;
+  color: gray;
+  display: inline-block;
+  margin: 1em 0;
+  font-style: italic;
 }

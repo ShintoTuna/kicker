@@ -1,7 +1,7 @@
 import { observable, action } from 'mobx';
 import * as firebase from 'firebase/app';
 import { Player, RankingPos, RankingType } from '../types';
-import { formatRating, formatGoals } from '../utils';
+import { formatRating, formatGoals, formatWins } from '../utils';
 import db from '../firebase';
 
 export class PlayerStore {
@@ -54,6 +54,9 @@ export class PlayerStore {
             rating: (a: P, b: P) => formatRating(b[1].ratings[pos]) - formatRating(a[1].ratings[pos]),
             goals: (a: P, b: P) => formatGoals(b[1].avgs[pos]) - formatGoals(a[1].avgs[pos]),
             ownGoals: (a: P, b: P) => formatGoals(b[1].avgs[pos], true) - formatGoals(a[1].avgs[pos], true),
+            winPercent: (a: P, b: P) =>
+                formatWins(
+                    b[1].avgs[pos].games, b[1].avgs[pos].wins) - formatWins(a[1].avgs[pos].games, a[1].avgs[pos].wins),
         };
 
         const playersArray: P[] = Array.from(this.players.entries())

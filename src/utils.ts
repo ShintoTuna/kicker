@@ -7,3 +7,5 @@ export const formatGoals = (goals: Goals, own: boolean = false): number => {
 
     return isNaN(avg) ? 0 : Math.round(avg * 100) / 100;
 };
+
+export const formatWins = (games: number, wins: number): number => Math.round(wins / games * 100);

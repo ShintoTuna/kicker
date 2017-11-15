@@ -9,7 +9,7 @@ export enum TablePosition {
 
 export type RankingPos = 'off' | 'def' | 'all';
 
-export type RankingType = 'rating' | 'goals' | 'ownGoals';
+export type RankingType = 'rating' | 'avgGoals' | 'avgOwnGoals' | 'gamesPlayed' | 'winPercent';
 
 export interface Rating {
     mu: number;
