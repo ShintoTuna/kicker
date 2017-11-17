@@ -127,3 +127,12 @@
     border: 0;
     background: none;
 }
+
+.events {
+    border: 1px solid darkslategray;
+    margin: 1em;
+}
+
+.events div {
+    padding: .4em;
+}

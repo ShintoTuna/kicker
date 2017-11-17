@@ -7,6 +7,7 @@
     background: lightsalmon;
     flex-direction: row;
 }
+
 .played-game .home {
     background: lightblue;
     flex-direction: row-reverse;
@@ -15,6 +16,7 @@
 .played-game .reverse .away {
     background: lightblue;
 }
+
 .played-game .reverse .home {
     background: lightsalmon;
 }
@@ -32,12 +34,25 @@
     text-align: center;
 }
 
-.played-game .participant .name { flex-grow: 2; }
+.played-game .participant .name {
+    flex-grow: 2;
+}
 
-.played-game .away.off { order: 1 }
-.played-game .home.def { order: 2 }
-.played-game .away.def { order: 3 }
-.played-game .home.off { order: 4 }
+.played-game .away.off {
+    order: 1
+}
+
+.played-game .home.def {
+    order: 2
+}
+
+.played-game .away.def {
+    order: 3
+}
+
+.played-game .home.off {
+    order: 4
+}
 
 .played-game .final-score {
     display: flex;

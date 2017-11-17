@@ -8,12 +8,16 @@ import db from '../firebase';
 export class TableStore {
     @observable participants = new Map<TablePosition, Participant>();
     @observable events: GameEvent[] = [];
+    @observable sidesReverse: boolean = false;
 
     gamesCol = db.collection('games/');
 
     @computed get pickParticipants() {
         return this.participants.size < 4;
     }
+
+    @action switchSides = () => this.sidesReverse = !this.sidesReverse;
+    @action setSides = (isReverse: boolean) => this.sidesReverse = isReverse;
 
     @action addPlayer(position: TablePosition, player: Player) {
         this.participants.set(position, {

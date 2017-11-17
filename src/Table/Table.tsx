@@ -2,7 +2,7 @@ import * as React from 'react';
 import { inject, observer } from 'mobx-react';
 import { TableStore } from './TableStore';
 import Participant from './Participant';
-import { TablePosition } from '../types';
+import { TablePosition, GameActions } from '../types';
 import Players from '../Player/Players';
 import './Table.css';
 
@@ -15,7 +15,7 @@ interface State {
     timer: number;
     pickParticipants: boolean;
     forSwap: TablePosition | null;
-    sidesReverse: boolean;
+    showLog: boolean;
 }
 
 @inject('tableStore')
@@ -27,7 +27,7 @@ class Table extends React.Component<Props, State> {
         timer: 0,
         pickParticipants: false,
         forSwap: null,
-        sidesReverse: false,
+        showLog: true,
     };
 
     public render() {
@@ -38,53 +38,64 @@ class Table extends React.Component<Props, State> {
         return tableStore.pickParticipants ? <Players /> : this.renderTable(tableStore);
     }
 
-    private renderTable =
-    ({ participants, scoreGoal, scoreOwnGoal, score, events, undo, finishGame, cancelGame }: TableStore) => (
-        <div className="table">
-            <div className={`timer ${this.state.counter <= 0 ? 'blink' : ''}`}>
-                <button onClick={this.resetTimer}>
-                    <i className={`fa fa-lg fa-refresh`} aria-hidden="true" />
-                </button>
-                <span>{this.time()}</span>
-                <button onClick={this.startTimer}>
-                    <i className={`fa fa-lg ${!this.state.timer ? 'fa-play' : 'fa-pause'}`} aria-hidden="true" />
-                </button>
-            </div>
-            <div className={`score ${this.state.sidesReverse ? 'reverse' : ''}`}>
-                <span className="away">{score.away}</span>
-                <span className="home">{score.home}</span>
-            </div>
-            <ul className={`game ${this.state.sidesReverse ? 'reverse' : ''}`}>
-                {Array.from(participants.entries()).map((participant, i) =>
-                    participant && <Participant
-                        key={i}
-                        participant={participant}
-                        scoreGoal={(p) => scoreGoal(p)}
-                        scoreOwnGoal={(p) => scoreOwnGoal(p)}
-                        swap={this.forSwap}
-                    />
-                )}
-            </ul>
+    private renderTable = (tableStore: TableStore) => {
+        const {
+            participants, scoreGoal, scoreOwnGoal, score, events,
+            undo, cancelGame, sidesReverse, switchSides,
+        } = tableStore;
 
-            <div className="controls">
-                <button onClick={cancelGame}>Cancel</button>
-                <button onClick={undo}>Undo</button>
-                <button onClick={this.switchSides}>Switch Sides</button>
-                <button
-                    className="finish"
-                    onClick={this.finishGame}
-                >
-                    Finish game
-                </button>
-            </div>
-            <div>
-                {/* {events.map((e, i) => <div key={i}>{e.action} {e.position}</div>)} */}
-            </div>
-        </div>
-    )
+        return (
+            <div className="table">
+                <div className={`timer ${this.state.counter <= 0 ? 'blink' : ''}`}>
+                    <button onClick={this.resetTimer}>
+                        <i className={`fa fa-lg fa-refresh`} aria-hidden="true" />
+                    </button>
+                    <span>{this.time()}</span>
+                    <button onClick={this.startTimer}>
+                        <i className={`fa fa-lg ${!this.state.timer ? 'fa-play' : 'fa-pause'}`} aria-hidden="true" />
+                    </button>
+                </div>
+                <div className={`score ${sidesReverse ? 'reverse' : ''}`}>
+                    <span className="away">{score.away}</span>
+                    <span className="home">{score.home}</span>
+                </div>
+                <ul className={`game ${sidesReverse ? 'reverse' : ''}`}>
+                    {Array.from(participants.entries()).map((participant, i) =>
+                        participant && <Participant
+                            key={i}
+                            participant={participant}
+                            scoreGoal={(p) => scoreGoal(p)}
+                            scoreOwnGoal={(p) => scoreOwnGoal(p)}
+                            swap={this.forSwap}
+                        />
+                    )}
+                </ul>
 
-    private switchSides = () => {
-        this.setState({ sidesReverse: !this.state.sidesReverse });
+                <div className="controls">
+                    <button onClick={cancelGame}>Cancel</button>
+                    <button onClick={undo}>Undo</button>
+                    <button onClick={switchSides}>Switch Sides</button>
+                    <button
+                        className="finish"
+                        onClick={this.finishGame}
+                    >
+                        Finish game
+                    </button>
+                </div>
+                {events.length > 0 && <div className={`events ${this.state.showLog ? 'show' : ''}`}>
+                    {events.reverse().map((e, i) => {
+                        const player = participants.get(e.position);
+
+                        if (player && player.player) {
+                            const name = `${player.player.firstName} ${player.player.lastName.charAt(0)}.`;
+                            const action  = e.action === GameActions.SCORE_GOAL ? 'scored GOAL!' : 'scored OWN goal!';
+                            return <div key={i}>{`${name} ${action}`}</div>;
+                        }
+                        return null;
+                    })}
+                </div>}
+            </div>
+        );
     }
 
     private forSwap = (pos: TablePosition) => {
@@ -149,7 +160,7 @@ class Table extends React.Component<Props, State> {
 
         if (tableStore) {
             this.resetTimer();
-            tableStore.finishGame(time, this.state.sidesReverse);
+            tableStore.finishGame(time, tableStore.sidesReverse);
         }
     }
 }

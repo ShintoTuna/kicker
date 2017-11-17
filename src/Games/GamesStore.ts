@@ -42,19 +42,21 @@ export class GamesStore {
             }
         });
 
+        tableStore.setSides(!game.reverse);
+
         appStore.newGame();
     }
 
     getOpposite = (pos: TablePosition) => {
         switch (pos) {
             case TablePosition.AWAY_DEF:
-                return TablePosition.HOME_OFF;
-            case TablePosition.AWAY_OFF:
-                return TablePosition.HOME_DEF;
-            case TablePosition.HOME_DEF:
                 return TablePosition.AWAY_OFF;
-            case TablePosition.HOME_OFF:
+            case TablePosition.AWAY_OFF:
                 return TablePosition.AWAY_DEF;
+            case TablePosition.HOME_DEF:
+                return TablePosition.HOME_OFF;
+            case TablePosition.HOME_OFF:
+                return TablePosition.HOME_DEF;
             default:
                 return null;
         }
