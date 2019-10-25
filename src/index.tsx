@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { useStrict } from 'mobx';
+// import { configure } from 'mobx';
 import { Provider } from 'mobx-react';
 import App from './App';
 import './index.css';
@@ -10,7 +10,7 @@ import appStore from './AppStore';
 import gamesStore from './Games/GamesStore';
 import './firebase';
 
-useStrict(true);
+// configure({ enforceActions: true })
 
 const stores = {
   gamesStore,

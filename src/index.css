@@ -45,14 +45,15 @@ tr:nth-child(2n + 1) {
   display: inline-block;
 }
 
-.tabs li a {
+.tabs li span {
   display: block;
   padding: .5em;
   text-decoration: none;
-  color: darkslategray
+  color: darkslategray;
+  cursor: pointer;
 }
 
-.tabs li a.pos {
+.tabs li span.pos {
   background-color: lightsalmon;
   color: darkslategray;
 }

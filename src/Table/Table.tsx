@@ -22,7 +22,7 @@ interface State {
 @observer
 class Table extends React.Component<Props, State> {
     length = 7 * 60;
-    state = {
+    state: State = {
         counter: this.length,
         timer: 0,
         pickParticipants: false,
@@ -101,6 +101,7 @@ class Table extends React.Component<Props, State> {
     private forSwap = (pos: TablePosition) => {
         const { tableStore } = this.props;
         const { forSwap } = this.state;
+
         if (tableStore) {
             if (forSwap && (pos !== forSwap)) {
                 tableStore.swapPositions(forSwap, pos);

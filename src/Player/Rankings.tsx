@@ -108,13 +108,12 @@ class Rankings extends React.Component<Props, State> {
 
     private renderTab = (pos: RankingPos, label: string) => (
         <li>
-            <a
+            <span
                 className={this.posCN(pos)}
-                href="#"
                 onClick={() => this.onTabChange(pos)}
             >
                 {label}
-            </a>
+            </span>
         </li>
     )
 

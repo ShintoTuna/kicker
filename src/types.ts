@@ -80,5 +80,8 @@ export interface PlayedGame {
         home: number;
         away: number;
     };
-    timestamp: string;
+    timestamp: {
+        seconds: string;
+        nanoseconds: string;
+    };
 }

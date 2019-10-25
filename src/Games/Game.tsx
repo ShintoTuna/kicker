@@ -2,7 +2,7 @@ import * as React from 'react';
 import { PlayedGame, PlayedParticipant } from '../types';
 import { observer, inject } from 'mobx-react';
 import { GamesStore } from './GamesStore';
-import * as moment from 'moment';
+import formatDistance from 'date-fns/formatDistance';
 import './Game.css';
 
 interface Props {
@@ -22,7 +22,7 @@ class Game extends React.Component<Props> {
             <div className="played-game">
                 <div className="final-score">
                     <div className="time">
-                        {timestamp && moment(Date.parse(timestamp.toString())).fromNow()}
+                        {timestamp && formatDistance(new Date(parseInt(timestamp.seconds) * 1000), new Date())}
                     </div>
                     <div className="score">{score.away} : {score.home}</div>
                     <div className="load"><button onClick={() => gamesStore.loadGame(gameObj)}>Load</button></div>
